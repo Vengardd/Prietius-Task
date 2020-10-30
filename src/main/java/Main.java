@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -28,9 +29,11 @@ public class Main {
         WatchKey key;
         while ((key = watchService.take()) != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
+                LocalDateTime actualDateTime = LocalDateTime.now();
                 System.out.println(
                         "Event kind:" + event.kind()
-                                + ". File affected: " + event.context() + ".");
+                                + ". File affected: " + event.context()
+                                + " at " + actualDateTime.getHour() + " hour.");
             }
             key.reset();
         }
