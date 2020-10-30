@@ -1,3 +1,5 @@
+package path;
+
 import java.nio.file.Path;
 
 public class PathKeeper {
