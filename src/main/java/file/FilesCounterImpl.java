@@ -1,12 +1,11 @@
 package file;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
@@ -25,7 +24,7 @@ public class FilesCounterImpl implements FilesCounter {
 
     private void init() throws IOException {
         file = path.toFile();
-        if(!file.createNewFile()) {
+        if (!file.createNewFile()) {
             readFromFile();
         }
     }
@@ -45,22 +44,39 @@ public class FilesCounterImpl implements FilesCounter {
             }
             myReader.close();
         } catch (NumberFormatException e) {
+            allFiles = 0;
+            devFiles = 0;
+            testFils = 0;
             FileChannel.open(path, StandardOpenOption.WRITE).truncate(0).close();
         }
     }
 
     @Override
-    public void addedNewFile() {
-
+    public void addedNewFile() throws IOException {
+        allFiles++;
+        saveNewCountToFile();
     }
 
     @Override
-    public void addedNewFileToDev() {
-
+    public void addedNewFileToDev() throws IOException {
+        devFiles++;
+        addedNewFile();
     }
 
     @Override
-    public void addedNewFileToTest() {
+    public void addedNewFileToTest() throws IOException {
+        testFils++;
+        addedNewFile();
+    }
 
+    private void saveNewCountToFile() throws IOException {
+        FileChannel.open(path, StandardOpenOption.WRITE).truncate(0).close();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()));
+        writer.write(Integer.toString(allFiles));
+        writer.newLine();
+        writer.write(Integer.toString(devFiles));
+        writer.newLine();
+        writer.write(Integer.toString(testFils));
+        writer.close();
     }
 }

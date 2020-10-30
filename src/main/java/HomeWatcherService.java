@@ -1,3 +1,5 @@
+import path.PathKeeper;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -26,11 +28,14 @@ public class HomeWatcherService {
         WatchKey key;
         while ((key = watchService.take()) != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
-                watchEventHandler.handle(event);
+                try {
+                    watchEventHandler.handle(event);
+                } catch (FileAlreadyExistsException e) {
+                    System.out.println("File already existing");
+                }
             }
             key.reset();
         }
     }
-
 
 }

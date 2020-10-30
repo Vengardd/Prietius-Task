@@ -1,19 +1,22 @@
+import extension.JarExtensionHandler;
+import extension.XmlExtensionHandler;
 import file.FilesCounter;
 import file.FilesCounterImpl;
+import path.PathKeeper;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         PathKeeper pathKeeper = new PathKeeper();
-        Path homePath = pathKeeper.getHome();
-
-        DirectoryCreator.createDirectoriesIfDoesntExists(homePath, pathKeeper.getDev(), pathKeeper.getTest());
+        DirectoryCreator.createDirectoriesIfDoesntExists(pathKeeper.getHome(), pathKeeper.getDev(), pathKeeper.getTest());
         FilesCounter filesCounter = new FilesCounterImpl(pathKeeper.getCount());
 
-        HomeWatcherService homeWatcherService = new HomeWatcherService(pathKeeper, new WatchEventHandler());
+        JarExtensionHandler jarExtensionHandler = new JarExtensionHandler(pathKeeper.getDev(), pathKeeper.getTest(), filesCounter);
+        XmlExtensionHandler xmlExtensionHandler = new XmlExtensionHandler(pathKeeper.getDev(), filesCounter);
+        WatchEventHandler watchEventHandler = new WatchEventHandler(jarExtensionHandler, xmlExtensionHandler, pathKeeper.getHome());
+        HomeWatcherService homeWatcherService = new HomeWatcherService(pathKeeper, watchEventHandler);
+
         homeWatcherService.watch();
     }
 }
