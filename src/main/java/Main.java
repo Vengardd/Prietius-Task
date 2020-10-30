@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.LocalDateTime;
@@ -7,14 +6,8 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         PathKeeper pathKeeper = new PathKeeper();
         Path homePath = pathKeeper.getHome();
-        try {
-            createDirectoryIfDoesntExists(homePath);
-            createDirectoryIfDoesntExists(pathKeeper.getDev());
-            createDirectoryIfDoesntExists(pathKeeper.getTest());
-            createFileIfDoesntExists(pathKeeper.getCount());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        DirectoryCreator.createDirectoriesIfDoesntExists(homePath, pathKeeper.getDev(), pathKeeper.getTest());
 
         WatchService watchService
                 = FileSystems.getDefault().newWatchService();
@@ -63,11 +56,6 @@ public class Main {
         return asd[asd.length - 1];
     }
 
-    private static void createDirectoryIfDoesntExists(Path path) throws IOException {
-        if (!Files.exists(path)) {
-            Files.createDirectory(path);
-        }
-    }
 
     private static void createFileIfDoesntExists(Path path) throws IOException {
         if(!Files.exists(path)) {
