@@ -1,3 +1,6 @@
+HOW TO RUN PROJECT:
+Import it to IntelIJ as Gradle project, then run it by gradle.
+
 Sites that I was using during this task:
 
 https://www.baeldung.com/java-nio2-watchservice \
