@@ -11,7 +11,7 @@ public class Main {
         //ToDo add loading count.txt file
         createFileIfDoesntExists(pathKeeper.getCount());
 
-        HomeWatcherService homeWatcherService = new HomeWatcherService(pathKeeper);
+        HomeWatcherService homeWatcherService = new HomeWatcherService(pathKeeper, new WatchEventHandler());
         homeWatcherService.watch();
     }
 
