@@ -1,18 +1,17 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Path homePath = Path.of("G:\\InteliJWorkspace\\prietius-task\\HOME");
-        Path devStringPath = Path.of("G:\\InteliJWorkspace\\prietius-task\\DEV");
-        Path testStringPath = Path.of("G:\\InteliJWorkspace\\prietius-task\\TEST");
-        Path countPath = Path.of("G:\\InteliJWorkspace\\prietius-task\\HOME\\count.txt");
+        PathKeeper pathKeeper = new PathKeeper();
+        Path homePath = pathKeeper.getHome();
         try {
             createDirectoryIfDoesntExists(homePath);
-            createDirectoryIfDoesntExists(devStringPath);
-            createDirectoryIfDoesntExists(testStringPath);
-            createDirectoryIfDoesntExists(countPath);
+            createDirectoryIfDoesntExists(pathKeeper.getDev());
+            createDirectoryIfDoesntExists(pathKeeper.getTest());
+            createFileIfDoesntExists(pathKeeper.getCount());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,6 +66,12 @@ public class Main {
     private static void createDirectoryIfDoesntExists(Path path) throws IOException {
         if (!Files.exists(path)) {
             Files.createDirectory(path);
+        }
+    }
+
+    private static void createFileIfDoesntExists(Path path) throws IOException {
+        if(!Files.exists(path)) {
+            Files.createFile(path);
         }
     }
 }
