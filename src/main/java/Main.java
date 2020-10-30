@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
+        //ToDo add possiblity to set paths from env variables
         PathKeeper pathKeeper = new PathKeeper();
         DirectoryCreator.createDirectoriesIfDoesntExists(pathKeeper.getHome(), pathKeeper.getDev(), pathKeeper.getTest());
         FilesCounter filesCounter = new FilesCounterImpl(pathKeeper.getCount());

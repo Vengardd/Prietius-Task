@@ -16,3 +16,5 @@ If we restart program, should we load count.txt file and values from it, or just
 What if we change the name of file, should we still move it if it fits our conditions? \
 What if there are already existing file in DEV/TEST directory? Should copy it and add to count, or not?
  
+ 
+I added ToDo's to some places that I thinkg should be changed, but I dont have enough time for it.
