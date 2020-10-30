@@ -36,11 +36,11 @@ public class Main {
                                 + ". File affected: " + event.context()
                                 + " at " + actualHour + " hour.");
                 String fileExtension = getFileExtension(event.context());
-                if (fileExtension.equals("xml")) {
+                if (fileExtension.equals(Extensions.XML)) {
                     moveToDev();
-                } else if (fileExtension.equals("jar") && actualHour % 2 == 0) {
+                } else if (fileExtension.equals(Extensions.JAR) && actualHour % 2 == 0) {
                     moveToDev();
-                } else if (fileExtension.equals("jar") && actualHour % 2 == 1) {
+                } else if (fileExtension.equals(Extensions.JAR) && actualHour % 2 == 1) {
                     moveToTest();
                 }
             }
